@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviator Predictor Pro - Rapha</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #020617; color: white; font-family: 'Segoe UI', sans-serif; }
+        .glow-text { text-shadow: 0 0 20px rgba(34, 211, 238, 0.8); }
+        .glass-card { background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .digital { font-family: 'Courier New', Courier, monospace; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div id="login-screen" class="glass-card p-10 rounded-[3rem] shadow-2xl w-full max-w-sm transition-all duration-500">
+        <div class="text-center mb-8">
+            <div class="bg-cyan-500/20 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-cyan-500/50">
+                <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h2 class="text-2xl font-black tracking-tighter uppercase">Predictor Pro</h2>
+        </div>
+        
+        <input type="password" id="pass-input" class="w-full bg-slate-900/80 border-2 border-slate-700 rounded-2xl p-4 text-white text-center text-xl outline-none focus:border-cyan-500 mb-4 transition-all" placeholder="••••••••">
+        <button onclick="checkPass()" class="w-full bg-cyan-600 hover:bg-cyan-400 text-white font-black py-4 rounded-2xl shadow-lg transition-all active:scale-95 uppercase tracking-widest">
+            Accéder
+        </button>
+        <p id="error-msg" class="text-red-400 text-xs text-center mt-4 hidden font-bold uppercase">Mot de passe incorrect!</p>
+    </div>
+
+    <div id="main-app" class="hidden w-full max-w-md space-y-4">
+        
+        <div class="glass-card p-4 rounded-3xl flex justify-between items-center px-6">
+            <div>
+                <p class="text-[10px] font-bold text-cyan-500 uppercase tracking-[0.2em]">Heure Actuelle</p>
+                <div id="live-clock" class="text-2xl font-black digital">00:00:00</div>
+            </div>
+            <div class="text-right">
+                <div class="bg-green-500/20 text-green-400 text-[10px] px-2 py-1 rounded-md border border-green-500/30 font-bold uppercase">Serveur OK</div>
+            </div>
+        </div>
+
+        <div class="glass-card p-8 rounded-[3rem] shadow-2xl relative overflow-hidden">
+            <div class="space-y-8">
+                <div class="text-center">
+                    <label class="text-slate-500 text-[11px] font-black block mb-3 tracking-[0.3em] uppercase italic">🕒 Heure du dernier 2.00x</label>
+                    <input type="time" id="start-time" step="1" oninput="calculate()" class="w-full bg-slate-950/50 text-white text-4xl text-center py-6 rounded-[2rem] border border-slate-800 outline-none focus:border-cyan-500/50 font-black">
+                </div>
+
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="text-center">
+                        <label class="text-slate-600 text-[9px] font-bold block mb-2 uppercase italic">C1</label>
+                        <input type="number" id="c1" value="1.5" step="0.1" oninput="calculate()" class="w-full bg-slate-900/50 text-white py-3 rounded-xl text-center border border-slate-800 outline-none text-lg font-bold">
+                    </div>
+                    <div class="text-center">
+                        <label class="text-slate-600 text-[9px] font-bold block mb-2 uppercase italic">C2</label>
+                        <input type="number" id="c2" value="2.0" step="0.1" oninput="calculate()" class="w-full bg-slate-900/50 text-white py-3 rounded-xl text-center border border-slate-800 outline-none text-lg font-bold">
+                    </div>
+                    <div class="text-center">
+                        <label class="text-slate-600 text-[9px] font-bold block mb-2 uppercase italic text-cyan-500">C3</label>
+                        <input type="number" id="c3" value="1.2" step="0.1" oninput="calculate()" class="w-full bg-slate-900/50 text-white py-3 rounded-xl text-center border border-cyan-500/30 outline-none text-lg font-bold">
+                    </div>
+                </div>
+
+                <div class="bg-slate-950/40 rounded-[2.5rem] p-6 border border-slate-800/50 text-center relative">
+                    <div class="text-cyan-500 mb-2 flex items-center justify-center gap-2">
+                        <span class="text-[10px] font-black uppercase tracking-[0.4em]">Prochain Signal 2.00x</span>
+                    </div>
+                    <div id="result" class="text-6xl font-black digital text-cyan-400 glow-text">--:--:--</div>
+                    <div id="ecart-val" class="mt-2 text-slate-500 text-[10px] font-bold uppercase tracking-widest
